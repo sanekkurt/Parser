@@ -15,7 +15,6 @@ namespace Parser.Save
             var data = list;
             int count = 0;
             var database = new BibTeXDatabase();
-            var article2 = new BibTeXArticle();
             BibTeXArticle[] article = new BibTeXArticle[data.Count / 3];
             for (int i = 0; i < data.Count; i += 3)
             {
