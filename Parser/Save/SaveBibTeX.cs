@@ -31,6 +31,7 @@ namespace Parser.Save
                 else
                 {
                     pages = journal.Substring(indexOfSubstring+4, journal.Length - indexOfSubstring-4);
+                    journal = journal.Remove(indexOfSubstring);
                 }
 
                 article[count] = new BibTeXArticle
