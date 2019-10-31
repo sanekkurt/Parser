@@ -13,20 +13,33 @@ namespace Parser.Save
         public void InBibTeX(List<String> list, string path)
         {
             string journal;
+            string pages;
             var data = list;
             int count = 0;
             var database = new BibTeXDatabase();
-            BibTeXArticle[] article = new BibTeXArticle[data.Count / 3];
-            for (int i = 0; i < data.Count; i += 3)
+            BibTeXArticle[] article = new BibTeXArticle[data.Count / 4];
+            for (int i = 0; i < data.Count; i += 4)
             {
 
-                journal = data[i + 2].Trim();
+                journal = data[i + 3].Trim();
                 journal = journal.Replace("\n", " ");
+                int indexOfSubstring = journal.LastIndexOf("pp."); //Получение индекса начала фразы "pp."
+                if (indexOfSubstring == -1)
+                {
+                    pages = "";
+                }
+                else
+                {
+                    pages = journal.Substring(indexOfSubstring+4, journal.Length - indexOfSubstring-4);
+                }
+
                 article[count] = new BibTeXArticle
                 {
                     Title = data[i],
                     Author = data[i + 1].Trim(),
-                    Journal = journal
+                    Year = data[i + 2],
+                    Journal = journal,
+                    Pages = pages
                 };
                 
                 count++;
@@ -39,6 +52,7 @@ namespace Parser.Save
 
             var text = BibTeXUtilities.ConvertBibTeXDatabaseToText(database);
             var article1 = new BibTeXArticle();
+            
             
         }
 
