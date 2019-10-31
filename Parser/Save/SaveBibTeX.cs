@@ -14,30 +14,31 @@ namespace Parser.Save
         {
             string journal;
             string pages;
+            string additionalContent;
+            int index;
             var data = list;
             int count = 0;
             
             var database = new BibTeXDatabase();
-            BibTeXArticle[] article = new BibTeXArticle[data.Count / 4];
-            for (int i = 0; i < data.Count; i += 4)
+            BibTeXArticle[] article = new BibTeXArticle[data.Count / 5];
+            for (int i = 0; i < data.Count; i += 5)
             {
-                
+                additionalContent = data[i + 4].Trim();
                 journal = data[i + 3].Trim();
-                journal = journal.Replace("\n", " ");
-                
-                int indexOfSubstring = journal.LastIndexOf("pp."); //Получение индекса начала фразы "pp."
+                index = journal.LastIndexOf(additionalContent);
+                journal = journal.Remove(index);
+                journal = journal.Replace("\n", "");
+
+                int indexOfSubstring = additionalContent.LastIndexOf("pp."); //Получение индекса начала фразы "pp."
                 if (indexOfSubstring == -1)
                 {
                     pages = "";
                 }
                 else
                 {
-                    pages = journal.Substring(indexOfSubstring+4, journal.Length - indexOfSubstring-4);
-                    journal = journal.Remove(indexOfSubstring);//удаление текста с информацией о странице
-                    if (journal[journal.Length - 2] == ',')
-                    {
-                        journal = journal.Remove(journal.Length - 2);//удаление запятой с пробелом, оставшиеся после удаления инфы о странице
-                    }
+                    pages = additionalContent.Substring(indexOfSubstring+4, additionalContent.Length - indexOfSubstring-4);
+                    additionalContent = additionalContent.Remove(indexOfSubstring);//удаление текста с информацией о странице
+                    
                 }
 
                 article[count] = new BibTeXArticle

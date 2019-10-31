@@ -12,7 +12,7 @@ namespace Parser.Scopus
             var list = new List<string>();
 
 
-            var items = document.QuerySelectorAll("a.ddmDocTitle, td[data-type='source'], span.ddmAuthorList, span.ddmPubYr ");
+            var items = document.QuerySelectorAll("a.ddmDocTitle, td[data-type='source'], span.ddmAuthorList, span.ddmPubYr, div.additionalContent ");
 
 
 
