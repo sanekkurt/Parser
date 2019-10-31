@@ -16,13 +16,15 @@ namespace Parser.Save
             string pages;
             var data = list;
             int count = 0;
+            
             var database = new BibTeXDatabase();
             BibTeXArticle[] article = new BibTeXArticle[data.Count / 4];
             for (int i = 0; i < data.Count; i += 4)
             {
-
+                
                 journal = data[i + 3].Trim();
                 journal = journal.Replace("\n", " ");
+                
                 int indexOfSubstring = journal.LastIndexOf("pp."); //Получение индекса начала фразы "pp."
                 if (indexOfSubstring == -1)
                 {
@@ -31,7 +33,11 @@ namespace Parser.Save
                 else
                 {
                     pages = journal.Substring(indexOfSubstring+4, journal.Length - indexOfSubstring-4);
-                    journal = journal.Remove(indexOfSubstring);
+                    journal = journal.Remove(indexOfSubstring);//удаление текста с информацией о странице
+                    if (journal[journal.Length - 2] == ',')
+                    {
+                        journal = journal.Remove(journal.Length - 2);//удаление запятой с пробелом, оставшиеся после удаления инфы о странице
+                    }
                 }
 
                 article[count] = new BibTeXArticle
