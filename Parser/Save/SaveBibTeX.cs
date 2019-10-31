@@ -12,18 +12,23 @@ namespace Parser.Save
 
         public void InBibTeX(List<String> list, string path)
         {
+            string journal;
             var data = list;
             int count = 0;
             var database = new BibTeXDatabase();
             BibTeXArticle[] article = new BibTeXArticle[data.Count / 3];
             for (int i = 0; i < data.Count; i += 3)
             {
+
+                journal = data[i + 2].Trim();
+                journal = journal.Replace("\n", " ");
                 article[count] = new BibTeXArticle
                 {
                     Title = data[i],
-                    Author = data[i + 1],
-                    Journal = data[i + 2]
+                    Author = data[i + 1].Trim(),
+                    Journal = journal
                 };
+                
                 count++;
             }
 
@@ -34,7 +39,7 @@ namespace Parser.Save
 
             var text = BibTeXUtilities.ConvertBibTeXDatabaseToText(database);
             var article1 = new BibTeXArticle();
-
+            
         }
 
         
